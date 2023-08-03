@@ -11,4 +11,10 @@ class ValidationResponse
         $this->valid = true;
         $this->errors = [];
     }
+
+    public function addError(string $error)
+    {
+        $this->valid = false;
+        $this->errors[] = $error;
+    }
 }
