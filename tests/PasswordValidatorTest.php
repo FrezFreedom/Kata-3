@@ -11,7 +11,7 @@ final class PasswordValidatorTest extends TestCase
 
         $validation = $passwordValidator->validate();
 
-        $this->assertEquals(false, $validation->valid);
-        $this->assertTrue(in_array('Password must be at least 8 characters', $validation->erros));
+        $this->assertFalse($validation->valid);
+        $this->assertTrue(in_array('Password must be at least 8 characters', $validation->errors));
     }
 }
