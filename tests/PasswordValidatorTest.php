@@ -7,7 +7,7 @@ final class PasswordValidatorTest extends TestCase
 {
     public function test_eight_character_length_validation(): void
     {
-        $passwordValidator = new PasswordValidator('1234567');
+        $passwordValidator = new PasswordValidator('1234567', ['length']);
 
         $validation = $passwordValidator->validate();
 
@@ -17,7 +17,7 @@ final class PasswordValidatorTest extends TestCase
 
     public function test_numeric_characters_validation(): void
     {
-        $passwordValidator = new PasswordValidator('ABC1');
+        $passwordValidator = new PasswordValidator('ABC1', ['numeric']);
 
         $validation = $passwordValidator->validate();
 
