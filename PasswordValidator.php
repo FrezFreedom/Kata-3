@@ -12,6 +12,7 @@ class PasswordValidator
     private array $rules_functions_map =  [
         'length' => 'validateLength',
         'numeric' => 'validateNumericCharacters',
+        'capital' => 'validateCapital',
     ];
 
     public function __construct(string $password, array $rules)
@@ -59,6 +60,9 @@ class PasswordValidator
         return $count;
     }
 
+    private function validateCapital()
+    {
+    }
 
 
 }

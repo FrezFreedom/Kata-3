@@ -24,4 +24,24 @@ final class PasswordValidatorTest extends TestCase
         $this->assertFalse($validation->valid);
         $this->assertTrue(in_array('The password must contain at least 2 numbers', $validation->errors));
     }
+
+    public function test_capital_character_false_validation(): void
+    {
+        $passwordValidator = new PasswordValidator('abc', ['capital']);
+
+        $validation = $passwordValidator->validate();
+
+        $this->assertFalse($validation->valid);
+        $this->assertTrue(in_array('password must contain at least one capital letter', $validation->errors));
+    }
+
+    public function test_capital_character_true_validation(): void
+    {
+        $passwordValidator = new PasswordValidator('Abc', ['capital']);
+
+        $validation = $passwordValidator->validate();
+
+        $this->assertTrue($validation->valid);
+        $this->assertFalse(in_array('password must contain at least one capital letter', $validation->errors));
+    }
 }
