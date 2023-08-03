@@ -6,6 +6,7 @@ class PasswordValidator
 {
     public const ERROR_LENGTH_INVALID = 'Password must be at least 8 characters';
     public const ERROR_NUMERIC_INVALID = 'The password must contain at least 2 numbers';
+    public const ERROR_CAPITAL_INVALID = 'password must contain at least one capital letter';
     public string $password;
     public ValidationResponse $response;
     public array $rules;
@@ -62,6 +63,22 @@ class PasswordValidator
 
     private function validateCapital()
     {
+        $countCapitalCharacters = $this->countCapitalCharacters();
+        if ($countCapitalCharacters < 1)
+        {
+            $this->response->addError(self::ERROR_CAPITAL_INVALID);
+        }
+    }
+
+    private function countCapitalCharacters()
+    {
+        $count = 0;
+        for ($i = 0; $i < strlen($this->password); $i++){
+            if (ctype_upper($this->password[$i])){
+                $count++;
+            }
+        }
+        return $count;
     }
 
 
