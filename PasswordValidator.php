@@ -1,85 +1,37 @@
 <?php
 
 require_once('ValidationResponse.php');
+require_once('LengthValidator.php');
+require_once('ValidatorInterface.php');
 
-class PasswordValidator
+class PasswordValidator implements validatorInterface
 {
-    public const ERROR_LENGTH_INVALID = 'Password must be at least 8 characters';
-    public const ERROR_NUMERIC_INVALID = 'The password must contain at least 2 numbers';
-    public const ERROR_CAPITAL_INVALID = 'password must contain at least one capital letter';
-    public string $password;
     public ValidationResponse $response;
-    public array $rules;
-    private array $rules_functions_map =  [
-        'length' => 'validateLength',
-        'numeric' => 'validateNumericCharacters',
-        'capital' => 'validateCapital',
-    ];
 
-    public function __construct(string $password, array $rules)
+    public function __construct()
     {
-        $this->password = $password;
         $this->response = new ValidationResponse();
-        $this->rules = $rules;
     }
     
-    public function validate()
+    public function validate(string $password): ValidationResponse
     {
-        foreach ($this->rules as $rule) {
-            $functaion_name = $this->rules_functions_map[$rule];
-            $this->$functaion_name();
-        }
+        $this->validateLength($password);
 
         return $this->response;
     }
 
-    private function validateLength()
+    private function validateLength(string $password)
     {
-        if (strlen($this->password) < 8) 
+        $lengethValidation = new LengthValidator();
+        $lengthValidationResponse = $lengethValidation->validate($password);
+        $this->processValidation( $lengthValidationResponse );
+    }
+
+    private function processValidation($validationResponse)
+    {
+        if( ! $validationResponse->valid )
         {
-            $this->response->addError(self::ERROR_LENGTH_INVALID);
+            $this->response->addError( $validationResponse->errors[0] );
         }
     }
-
-    private function validateNumericCharacters()
-    {
-        $countNumericCharacters = $this->countNumericCharacters();
-        if ($countNumericCharacters < 2)
-        {
-            $this->response->addError(self::ERROR_NUMERIC_INVALID);
-        }
-    }
-
-    private function countNumericCharacters()
-    {
-        $count = 0;
-        for ($i = 0; $i < strlen($this->password); $i++){
-            if (is_numeric($this->password[$i])){
-                $count++;
-            }
-        }
-        return $count;
-    }
-
-    private function validateCapital()
-    {
-        $countCapitalCharacters = $this->countCapitalCharacters();
-        if ($countCapitalCharacters < 1)
-        {
-            $this->response->addError(self::ERROR_CAPITAL_INVALID);
-        }
-    }
-
-    private function countCapitalCharacters()
-    {
-        $count = 0;
-        for ($i = 0; $i < strlen($this->password); $i++){
-            if (ctype_upper($this->password[$i])){
-                $count++;
-            }
-        }
-        return $count;
-    }
-
-
 }
