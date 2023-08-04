@@ -15,6 +15,16 @@ final class PasswordValidatorTest extends TestCase
         $this->assertFalse(in_array('Password must be at least 8 characters', $validation->errors));
     }
 
+    public function test_eight_character_length_validation_unhappy(): void
+    {
+        $passwordValidator = new PasswordValidator();
+
+        $validation = $passwordValidator->validate('1234567');
+
+        $this->assertFalse($validation->valid);
+        $this->assertTrue(in_array('Password must be at least 8 characters', $validation->errors));
+    }
+
     // public function test_numeric_characters_validation(): void
     // {
     //     $passwordValidator = new PasswordValidator('ABC1', ['numeric']);
