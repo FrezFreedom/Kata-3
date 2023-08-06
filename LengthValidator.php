@@ -5,15 +5,21 @@ require_once('ValidationResponse.php');
 
 class LengthValidator implements ValidatorInterface
 {
-    private const ERROR = 'Password must be at least 8 characters';
-    public function validate(string $password): ValidationResponse
+    private const ERROR = '%s must be at least %u characters';
+    public function validate(string $str, int $min, string $variable_name): ValidationResponse
     {
         $validationResponse = new ValidationResponse();
 
-        if(strlen($password) < 8)
+        if(strlen($str) < $min)
         {
-            $validationResponse->addError(self::ERROR);
+            $error = $this->generateErrorMessage($min, $variable_name);
+            $validationResponse->addError($error);
         }
         return $validationResponse;
+    }
+
+    private function generateErrorMessage(int $min, string $variable_name): string
+    {
+        return sprintf(self::ERROR, $variable_name, $min);
     }
 }

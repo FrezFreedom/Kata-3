@@ -4,7 +4,7 @@ require_once('ValidationResponse.php');
 require_once('LengthValidator.php');
 require_once('ValidatorInterface.php');
 
-class PasswordValidator implements validatorInterface
+class PasswordValidator
 {
     public ValidationResponse $response;
 
@@ -23,7 +23,7 @@ class PasswordValidator implements validatorInterface
     private function validateLength(string $password)
     {
         $lengethValidation = new LengthValidator();
-        $lengthValidationResponse = $lengethValidation->validate($password);
+        $lengthValidationResponse = $lengethValidation->validate($password, 8, 'Password');
         $this->processValidation( $lengthValidationResponse );
     }
 
