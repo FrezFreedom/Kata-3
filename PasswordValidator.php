@@ -2,36 +2,43 @@
 
 require_once('ValidationResponse.php');
 require_once('LengthValidator.php');
+require_once('NumericValidator.php');
 require_once('ValidatorInterface.php');
 
 class PasswordValidator
 {
-    public ValidationResponse $response;
 
-    public function __construct()
-    {
-        $this->response = new ValidationResponse();
-    }
-    
     public function validate(string $password): ValidationResponse
     {
-        $this->validateLength($password);
+        $response = new ValidationResponse();;
 
-        return $this->response;
+        $this->validateLength($password, $response);
+
+        $this->validateNumeric($password, $response);
+
+        return $response;
     }
 
-    private function validateLength(string $password)
+    private function validateLength(string $password, ValidationResponse $response): void
     {
         $lengethValidation = new LengthValidator();
         $lengthValidationResponse = $lengethValidation->validate($password, 8, 'Password');
-        $this->processValidation( $lengthValidationResponse );
+        $this->processValidation( $lengthValidationResponse ,$response );
     }
 
-    private function processValidation($validationResponse)
+    private function validateNumeric(string $password, ValidationResponse $response): void
+    {
+        $numericValidator = new NumericValidator();
+        $numericValidationResponse = $numericValidator->validate($password, 2, 'password');
+        $this->processValidation( $numericValidationResponse, $response );
+    }
+
+    private function processValidation(ValidationResponse $validationResponse,
+                                       ValidationResponse $response): void
     {
         if( ! $validationResponse->valid )
         {
-            $this->response->addError( $validationResponse->errors[0] );
+            $response->addError( $validationResponse->errors[0] );
         }
     }
 }
