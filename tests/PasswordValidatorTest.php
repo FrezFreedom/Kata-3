@@ -2,38 +2,53 @@
 
 use PHPUnit\Framework\TestCase;
 require_once( __DIR__ . '/../PasswordValidator.php');
+require_once( __DIR__ . '/../ValidationResponse.php');
 
 final class PasswordValidatorTest extends TestCase
 {
-    public function test_eight_character_length_validation_happy(): void
+
+    /**
+     * @dataProvider provideLengthValidationData
+     */
+    public function test_eight_character_length_validation_happy($expectedResult, $input): void
     {
         $passwordValidator = new PasswordValidator();
 
-        $validation = $passwordValidator->validate('12345678');
+        $validation = $passwordValidator->validate($input);
 
-        $this->assertTrue($validation->valid);
-        $this->assertFalse(in_array('Password must be at least 8 characters', $validation->errors));
+        $this->assertSame($expectedResult->valid, $validation->valid);
+        $this->assertSame($expectedResult->errors, $validation->errors);
     }
 
-    public function test_eight_character_length_validation_unhappy(): void
+    public static function provideLengthValidationData()
     {
-        $passwordValidator = new PasswordValidator();
+        $validationResponse = new ValidationResponse();
+        yield 'length validation no problem state'  => [
+            $validationResponse,
+            '12345678',
+        ];
 
-        $validation = $passwordValidator->validate('1234567');
+        $validationResponse = new ValidationResponse();
+        $validationResponse->addError('Password must be at least 8 characters');
+        yield 'length validation problem state'  => [
+            $validationResponse,
+            '1234567',
+        ];
 
-        $this->assertFalse($validation->valid);
-        $this->assertTrue(in_array('Password must be at least 8 characters', $validation->errors));
+        $validationResponse = new ValidationResponse();
+        yield 'numeric validation no problem state'  => [
+            $validationResponse,
+            'ABCDEFG12',
+        ];
+        
+        $validationResponse = new ValidationResponse();
+        $validationResponse->addError('The password must contain at least 2 numbers');
+        yield 'numeric validation problem state'  => [
+            $validationResponse,
+            'ABCDEFG1',
+        ];
     }
 
-    public function test_numeric_characters_validation_unhappy(): void
-    {
-        $passwordValidator = new PasswordValidator();
-
-        $validation = $passwordValidator->validate('ABCDEFG1');
-
-        $this->assertFalse($validation->valid);
-        $this->assertTrue(in_array('The password must contain at least 2 numbers', $validation->errors));
-    }
 
     // public function test_capital_character_false_validation(): void
     // {
