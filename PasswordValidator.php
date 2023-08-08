@@ -4,6 +4,7 @@ require_once('ValidationResponse.php');
 require_once('LengthValidator.php');
 require_once('NumericValidator.php');
 require_once('CapitalValidator.php');
+require_once('SpecialValidator.php');
 require_once('ValidatorInterface.php');
 
 class PasswordValidator
@@ -19,7 +20,16 @@ class PasswordValidator
 
         $this->validateCapital($password, $response);
 
+        $this->validateSpecial($password, $response);
+
         return $response;
+    }
+
+    private function validateSpecial(string $password, ValidationResponse $response): void
+    {
+        $specialValidator = new SpecialValidator();
+        $specialValidationResponse = $specialValidator->validate($password, 1, 'password');
+        $this->processValidation( $specialValidationResponse, $response );
     }
 
     private function validateCapital(string $password, ValidationResponse $response): void

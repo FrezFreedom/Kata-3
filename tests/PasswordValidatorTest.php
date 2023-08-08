@@ -25,40 +25,40 @@ final class PasswordValidatorTest extends TestCase
         $validationResponse = new ValidationResponse();
         yield 'length validation no problem state'  => [
             $validationResponse,
-            'A2345678',
+            'A@345678',
         ];
 
         $validationResponse = new ValidationResponse();
         $validationResponse->addError('Password must be at least 8 characters');
         yield 'length validation problem state'  => [
             $validationResponse,
-            'A234567',
+            'A@34567',
         ];
 
         $validationResponse = new ValidationResponse();
         yield 'numeric validation no problem state'  => [
             $validationResponse,
-            'ABCDEFG12',
+            'A@CDEFG12',
         ];
         
         $validationResponse = new ValidationResponse();
         $validationResponse->addError('The password must contain at least 2 numbers');
         yield 'numeric validation problem state'  => [
             $validationResponse,
-            'ABCDEFG1',
+            'A@CDEFG1',
         ];
 
         $validationResponse = new ValidationResponse();
         $validationResponse->addError('password must contain at least one capital letter');
         yield 'capital validation problem state'  => [
             $validationResponse,
-            'abcdefg12',
+            'a@cdefg12',
         ];
 
         $validationResponse = new ValidationResponse();
         yield 'capital validation no problem state'  => [
             $validationResponse,
-            'Abcdefg12',
+            'A@cdefg12',
         ];
 
         $validationResponse = new ValidationResponse();
