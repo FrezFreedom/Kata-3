@@ -60,6 +60,13 @@ final class PasswordValidatorTest extends TestCase
             $validationResponse,
             'Abcdefg12',
         ];
+
+        $validationResponse = new ValidationResponse();
+        $validationResponse->addError('password must contain at least one special character');
+        yield 'special validation problem state'  => [
+            $validationResponse,
+            'Abcdefg12',
+        ];
     }
 
 
