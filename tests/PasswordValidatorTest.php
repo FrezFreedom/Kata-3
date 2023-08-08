@@ -67,6 +67,12 @@ final class PasswordValidatorTest extends TestCase
             $validationResponse,
             'Abcdefg12',
         ];
+
+        $validationResponse = new ValidationResponse();
+        yield 'special validation no problem state'  => [
+            $validationResponse,
+            '@Abcdefg12',
+        ];
     }
 
 
