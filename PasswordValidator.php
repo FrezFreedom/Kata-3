@@ -3,6 +3,7 @@
 require_once('ValidationResponse.php');
 require_once('LengthValidator.php');
 require_once('NumericValidator.php');
+require_once('CapitalValidator.php');
 require_once('ValidatorInterface.php');
 
 class PasswordValidator
@@ -16,7 +17,16 @@ class PasswordValidator
 
         $this->validateNumeric($password, $response);
 
+        $this->validateCapital($password, $response);
+
         return $response;
+    }
+
+    private function validateCapital(string $password, ValidationResponse $response): void
+    {
+        $capitalValidator = new CapitalValidator();
+        $numericValidationResponse = $capitalValidator->validate($password, 1, 'password');
+        $this->processValidation( $numericValidationResponse, $response );
     }
 
     private function validateLength(string $password, ValidationResponse $response): void

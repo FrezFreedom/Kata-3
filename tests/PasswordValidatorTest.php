@@ -10,7 +10,7 @@ final class PasswordValidatorTest extends TestCase
     /**
      * @dataProvider provideLengthValidationData
      */
-    public function test_eight_character_length_validation_happy($expectedResult, $input): void
+    public function test_password_validation($expectedResult, $input): void
     {
         $passwordValidator = new PasswordValidator();
 
@@ -25,14 +25,14 @@ final class PasswordValidatorTest extends TestCase
         $validationResponse = new ValidationResponse();
         yield 'length validation no problem state'  => [
             $validationResponse,
-            '12345678',
+            'A2345678',
         ];
 
         $validationResponse = new ValidationResponse();
         $validationResponse->addError('Password must be at least 8 characters');
         yield 'length validation problem state'  => [
             $validationResponse,
-            '1234567',
+            'A234567',
         ];
 
         $validationResponse = new ValidationResponse();
@@ -46,6 +46,13 @@ final class PasswordValidatorTest extends TestCase
         yield 'numeric validation problem state'  => [
             $validationResponse,
             'ABCDEFG1',
+        ];
+
+        $validationResponse = new ValidationResponse();
+        $validationResponse->addError('password must contain at least one capital letter');
+        yield 'capital validation problem state'  => [
+            $validationResponse,
+            'abcdefg12',
         ];
     }
 
