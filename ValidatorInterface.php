@@ -3,5 +3,5 @@
 
 interface ValidatorInterface
 {
-    public function validate(string $str, int $min, string $variable_name): ValidationResponse;
+    public function validate(string $str, string $variable_name, int $min): ValidationResponse;
 }

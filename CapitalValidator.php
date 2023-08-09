@@ -7,7 +7,7 @@ require_once('NumberToWordConvertor.php');
 class CapitalValidator implements ValidatorInterface
 {
     private const ERROR = '%s must contain at least %s capital letter';
-    public function validate(string $str, int $min, string $variable_name): ValidationResponse
+    public function validate(string $str, string $variable_name, int $min): ValidationResponse
     {
         $validationResponse = new ValidationResponse();
         $numberOfCapitalCharacter = $this->getNumberOfCapticalCharacters($str);

@@ -6,7 +6,7 @@ require_once('ValidationResponse.php');
 class NumericValidator implements ValidatorInterface
 {
     private const ERROR = 'The %s must contain at least %u numbers';
-    public function validate(string $str, int $min, string $variable_name): ValidationResponse
+    public function validate(string $str, string $variable_name, int $min): ValidationResponse
     {
         $validationResponse = new ValidationResponse();
         $numberOfNumericCharacter = $this->getNumberOfNumericCharacter($str);

@@ -6,7 +6,7 @@ require_once('ValidationResponse.php');
 class LengthValidator implements ValidatorInterface
 {
     private const ERROR = '%s must be at least %u characters';
-    public function validate(string $str, int $min, string $variable_name): ValidationResponse
+    public function validate(string $str, string $variable_name, int $min): ValidationResponse
     {
         $validationResponse = new ValidationResponse();
 

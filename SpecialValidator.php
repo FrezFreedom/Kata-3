@@ -9,7 +9,7 @@ class SpecialValidator implements ValidatorInterface
     private const ERROR = '%s must contain at least %s special character';
     private const SPECIAL_CHARACTERS = "!@#$%^&*()_+-={}[]|\\:;'\"><,.?/`~";
 
-    public function validate(string $str, int $min, string $variable_name): ValidationResponse
+    public function validate(string $str, string $variable_name, int $min): ValidationResponse
     {
         $validationResponse = new ValidationResponse();
         $numberOfSpecialCharacter = $this->getNumberOfSpecialCharacters($str);

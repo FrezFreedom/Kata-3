@@ -28,28 +28,28 @@ class PasswordValidator
     private function validateSpecial(string $password, ValidationResponse $response): void
     {
         $specialValidator = new SpecialValidator();
-        $specialValidationResponse = $specialValidator->validate($password, 1, 'password');
+        $specialValidationResponse = $specialValidator->validate($password, 'password', 1);
         $this->processValidation( $specialValidationResponse, $response );
     }
 
     private function validateCapital(string $password, ValidationResponse $response): void
     {
         $capitalValidator = new CapitalValidator();
-        $numericValidationResponse = $capitalValidator->validate($password, 1, 'password');
+        $numericValidationResponse = $capitalValidator->validate($password, 'password', 1);
         $this->processValidation( $numericValidationResponse, $response );
     }
 
     private function validateLength(string $password, ValidationResponse $response): void
     {
         $lengethValidation = new LengthValidator();
-        $lengthValidationResponse = $lengethValidation->validate($password, 8, 'Password');
+        $lengthValidationResponse = $lengethValidation->validate($password, 'Password', 8);
         $this->processValidation( $lengthValidationResponse ,$response );
     }
 
     private function validateNumeric(string $password, ValidationResponse $response): void
     {
         $numericValidator = new NumericValidator();
-        $numericValidationResponse = $numericValidator->validate($password, 2, 'password');
+        $numericValidationResponse = $numericValidator->validate($password, 'password', 2);
         $this->processValidation( $numericValidationResponse, $response );
     }
 
